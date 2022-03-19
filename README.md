@@ -1,3 +1,4 @@
+
 ## Download and convert youtube video to mp3
 
 ```python
@@ -22,11 +23,13 @@ with open('songs.txt') as f:
         yt = YouTube(x)
         stream = yt.streams.filter(file_extension='mp4')
         stream = yt.streams.get_by_itag(stream[0].itag)
-        stream.download()
+
+        title = yt.title.replace(',', '').replace('.', '')
+        stream.download(output_path="videos", filename=title + '.mp4')
 
         # set files diretory
-        mp4_file = directory + "/" + yt.title + ".mp4"
-        mp3_file = directory + "/songs/" + yt.title + ".mp3"
+        mp4_file = directory + "/videos/" + title + ".mp4"
+        mp3_file = directory + "/songs/" + title + ".mp3"
 
         # convert mp4 to mp3
         videoclip = VideoFileClip(mp4_file)
@@ -34,14 +37,6 @@ with open('songs.txt') as f:
         audioclip.write_audiofile(mp3_file)
         audioclip.close()
         videoclip.close()
-
-        test = os.listdir(directory)
-
-        for item in test:
-            if item.endswith(".mp4"):
-                os.remove(os.path.join(directory, item))
-        
-    
 
 
 ```
